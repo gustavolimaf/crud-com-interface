@@ -1,41 +1,66 @@
+import sqlite3
+
 class Database:
     def __init__(self):
-        self.clientes = []
-        self.pedidos = []
-        self.cliente_id = 1
-        self.pedido_id = 1
+        self.conn = sqlite3.connect('clientes_pedidos.db')
+        self.create_tables()
+
+    def create_tables(self):
+        cursor = self.conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS clientes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nome TEXT NOT NULL,
+                email TEXT
+            )
+        ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS pedidos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                cliente_id INTEGER,
+                descricao TEXT NOT NULL,
+                quantidade INTEGER,
+                FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+            )
+        ''')
+        self.conn.commit()
 
     def insert_cliente(self, nome, email):
-        self.clientes.append((self.cliente_id, nome, email))
-        self.cliente_id += 1
+        self.conn.execute('INSERT INTO clientes (nome, email) VALUES (?, ?)', (nome, email))
+        self.conn.commit()
 
     def update_cliente(self, cid, nome, email):
-        cid = int(cid)
-        self.clientes = [(c[0], nome, email) if c[0] == cid else c for c in self.clientes]
+        self.conn.execute('UPDATE clientes SET nome=?, email=? WHERE id=?', (nome, email, cid))
+        self.conn.commit()
 
     def delete_cliente(self, cid):
-        cid = int(cid)
-        self.clientes = [c for c in self.clientes if c[0] != cid]
-        self.pedidos = [p for p in self.pedidos if p[1] != cid]
+        self.conn.execute('DELETE FROM clientes WHERE id=?', (cid,))
+        self.conn.commit()
 
     def fetch_clientes(self):
-        return self.clientes
+        cursor = self.conn.execute('SELECT id, nome, email FROM clientes')
+        return cursor.fetchall()
 
-    def insert_pedido(self, cid, desc, qt):
-        self.pedidos.append((self.pedido_id, cid, desc, qt))
-        self.pedido_id += 1
+    def insert_pedido(self, cliente_id, descricao, quantidade):
+        self.conn.execute('INSERT INTO pedidos (cliente_id, descricao, quantidade) VALUES (?, ?, ?)',
+                          (cliente_id, descricao, quantidade))
+        self.conn.commit()
 
-    def update_pedido(self, pid, cid, desc, qt):
-        pid = int(pid)
-        self.pedidos = [(p[0], cid, desc, qt) if p[0] == pid else p for p in self.pedidos]
+    def update_pedido(self, pid, cliente_id, descricao, quantidade):
+        self.conn.execute('''
+            UPDATE pedidos SET cliente_id=?, descricao=?, quantidade=? WHERE id=?
+        ''', (cliente_id, descricao, quantidade, pid))
+        self.conn.commit()
 
     def delete_pedido(self, pid):
-        pid = int(pid)
-        self.pedidos = [p for p in self.pedidos if p[0] != pid]
+        self.conn.execute('DELETE FROM pedidos WHERE id=?', (pid,))
+        self.conn.commit()
 
     def fetch_pedidos(self):
-        display = []
-        clientes_dict = {c[0]: c[1] for c in self.clientes}
-        for p in self.pedidos:
-            display.append((p[0], clientes_dict.get(p[1], 'Desconhecido'), p[2], p[3]))
-        return display
+        query = '''
+            SELECT pedidos.id, clientes.nome, pedidos.descricao, pedidos.quantidade
+            FROM pedidos
+            JOIN clientes ON pedidos.cliente_id = clientes.id
+        '''
+        cursor = self.conn.execute(query)
+        return cursor.fetchall()
