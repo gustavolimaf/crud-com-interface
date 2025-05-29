@@ -6,7 +6,7 @@ class Application:
     def __init__(self, root):
         self.db = Database()
         root.title("Sistema de Clientes e Pedidos")
-        root.geometry('800x600')
+        root.geometry('640x500')
         root.resizable(False, False)
         self.style = ttk.Style(root)
         self.style.theme_use('clam')
