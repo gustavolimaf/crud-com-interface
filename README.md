@@ -1,55 +1,56 @@
 # CRUD com Interface Gráfica
 
-Este é um projeto de sistema de gerenciamento de clientes e pedidos com uma interface gráfica intuitiva e responsiva desenvolvida em Python utilizando a biblioteca Tkinter.
+Este projeto é um sistema de cadastro de **clientes** e **pedidos** com interface gráfica desenvolvida em **Tkinter**, utilizando **SQLite** como banco de dados local.
 
 ## Funcionalidades
 
-* Cadastro, edição e exclusão de clientes
-* Cadastro, edição e exclusão de pedidos
-* Interface com abas separadas para Clientes e Pedidos
-* Combobox para seleção de clientes ao criar pedidos
-* Estilização personalizada com `ttk.Style`
+* Cadastro de clientes (nome e email)
+* Cadastro de pedidos associados a clientes
+* Edição e exclusão de registros
+* Interface amigável com abas separadas para clientes e pedidos
+* Persistência de dados em banco SQLite
+
+## Tecnologias utilizadas
+
+* Python 3
+* Tkinter (interface gráfica)
+* SQLite (banco de dados)
 
 ## Estrutura do Projeto
 
 ```
 crud-com-interface/
-├── main.py            # Ponto de entrada da aplicação
-├── gui.py             # Interface gráfica com Tkinter
-├── database.py        # Simulação de um banco de dados em memória
-├── README.md
+├── main.py           # Arquivo principal que executa o app
+├── gui.py            # Interface gráfica com Tkinter
+├── database.py       # Operações de banco de dados (SQLite)
+├── clientes.db       # Banco de dados SQLite
+└── README.md         # Documentação do projeto
 ```
 
-## Requisitos
-
-* Python 3.x
-
-## Como Executar
+## Como executar
 
 1. Clone o repositório:
 
-   ```bash
-   git clone https://github.com/gustavolimaf/crud-com-interface.git
-   cd crud-com-interface
-   ```
+```bash
+git clone https://github.com/gustavolimaf/crud-com-interface.git
+cd crud-com-interface
+```
 
-2. Execute o projeto:
+2. Execute o sistema:
 
-   ```bash
-   python main.py
-   ```
+```bash
+python main.py
+```
 
-## Futuras Melhorias
+## Banco de Dados
 
-* Integração com banco de dados real (ex: SQLite ou PostgreSQL)
-* Exportação de relatórios em PDF ou Excel
-* Sistema de autenticação de usuários
-* Validações mais robustas e mensagens de erro detalhadas
+O banco de dados é criado automaticamente na primeira execução. Ele se chama `clientes.db` e é mantido na raiz do projeto.
 
-## Licença
+## Screenshots
 
-Este projeto está licenciado sob a Licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
+![image](https://github.com/user-attachments/assets/2fbbabb3-1445-4c9e-8968-ef8fb2444154)
+
 
 ## Autor
 
-Desenvolvido por [Gustavo Lima](https://github.com/gustavolimaf)
+[Gustavo Lima](https://github.com/gustavolimaf)
