@@ -46,7 +46,7 @@ python main.py
 
 O banco de dados é criado automaticamente na primeira execução. Ele se chama `clientes.db` e é mantido na raiz do projeto.
 
-## Screenshots
+## Screenshot
 
 ![image](https://github.com/user-attachments/assets/2fbbabb3-1445-4c9e-8968-ef8fb2444154)
 
