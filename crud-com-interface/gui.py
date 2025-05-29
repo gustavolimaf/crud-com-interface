@@ -5,7 +5,7 @@ from database import Database
 class Application:
     def __init__(self, root):
         self.db = Database()
-        root.title("Sistema de Clientes & Pedidos")
+        root.title("Sistema de Clientes e Pedidos")
         root.geometry('800x600')
         root.resizable(False, False)
         self.style = ttk.Style(root)
@@ -19,8 +19,8 @@ class Application:
         self.notebook = ttk.Notebook(root)
         self.frame_c = ttk.Frame(self.notebook, padding=10)
         self.frame_p = ttk.Frame(self.notebook, padding=10)
-        self.notebook.add(self.frame_c, text='👥 Clientes')
-        self.notebook.add(self.frame_p, text='🚲 Pedidos')
+        self.notebook.add(self.frame_c, text='Clientes')
+        self.notebook.add(self.frame_p, text='Pedidos')
         self.notebook.pack(fill='both', expand=True)
         self._build_clientes_tab()
         self._build_pedidos_tab()
@@ -159,9 +159,10 @@ class Application:
     def load_clientes(self):
         for i in self.tree_c.get_children():
             self.tree_c.delete(i)
-        for row in self.db.fetch_clientes():
+        clientes = self.db.fetch_clientes()
+        for row in clientes:
             self.tree_c.insert('', tk.END, values=row)
-        self.combo_c['values'] = [f"{r[0]} - {r[1]}" for r in self.db.fetch_clientes()]
+        self.combo_c['values'] = [f"{r[0]} - {r[1]}" for r in clientes]
 
     def load_pedidos(self):
         for i in self.tree_p.get_children():
